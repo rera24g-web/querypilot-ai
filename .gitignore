@@ -1,0 +1,35 @@
+.env
+*.db
+__pycache__/
+.pytest_cache/
+node_modules/
+.next/
+evaluations/last_report.json
+
+# Python environments
+.venv/
+.venv*/
+venv/
+
+# Secrets and local configuration
+.env*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+
+# Python generated files
+*.pyc
+*.pyo
+*.egg-info/
+.coverage
+htmlcov/
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

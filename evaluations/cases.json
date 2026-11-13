@@ -1,0 +1,12 @@
+[
+ {"q":"How many users signed up in total?","gold":"SELECT COUNT(*) FROM users"},
+ {"q":"How many users came from each acquisition channel?","gold":"SELECT acquisition_channel, COUNT(*) FROM users GROUP BY 1"},
+ {"q":"What is the total revenue from all orders, rounded to 2 decimals?","gold":"SELECT ROUND(SUM(revenue),2) FROM orders"},
+ {"q":"What is the total revenue by user country?","gold":"SELECT u.country, ROUND(SUM(o.revenue),2) FROM orders o JOIN users u ON u.user_id=o.user_id GROUP BY 1"},
+ {"q":"How many cancelled subscriptions are there for each plan?","gold":"SELECT plan, COUNT(*) FROM subscriptions WHERE status='cancelled' GROUP BY 1"},
+ {"q":"Which single country has the most users?","gold":"SELECT country FROM users GROUP BY 1 ORDER BY COUNT(*) DESC LIMIT 1"},
+ {"q":"How many users have never placed an order?","gold":"SELECT COUNT(*) FROM users WHERE user_id NOT IN (SELECT user_id FROM orders)"},
+ {"q":"What is the average order value, rounded to 2 decimals?","gold":"SELECT ROUND(AVG(revenue),2) FROM orders"},
+ {"q":"How many events are there for each event name?","gold":"SELECT event_name, COUNT(*) FROM events GROUP BY 1"},
+ {"q":"How many paid_social users signed up in October 2026?","gold":"SELECT COUNT(*) FROM users WHERE acquisition_channel='paid_social' AND signup_date>='2026-10-01' AND signup_date<'2026-11-01'"}
+]

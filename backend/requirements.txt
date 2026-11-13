@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+sqlglot
+openai
+pydantic
+psycopg2-binary
+pytest
+httpx
+python-jose[cryptography]
+passlib[argon2]
+alembic
+itsdangerous
