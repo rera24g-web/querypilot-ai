@@ -3,15 +3,15 @@ from typing import Optional
 from fastapi import Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session as DBSession
 
-from app.db import get_engine
+from app.db import get_app_engine
 from app.services.session import SessionService
 from app.models.user import User
 
 
 # Database dependency
 def get_db() -> DBSession:
-    """Get database session."""
-    engine = get_engine()
+    """Get database session for auth (writable app database)."""
+    engine = get_app_engine()
     db = DBSession(engine)
     try:
         yield db

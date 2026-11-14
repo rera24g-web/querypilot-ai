@@ -19,6 +19,28 @@ def get_engine(readonly: bool = True):
     return _engines[key]
 
 
+def get_app_engine():
+    """Writable engine for the app database (APP_DATABASE_URL).
+
+    Auth data (users, sessions) must live in the writable app database:
+    the analytics engine from get_engine() is intentionally read-only
+    (SQLite query_only / Postgres READ ONLY) and cannot serve register/login.
+    """
+    from .models.base import Base
+    import app.models.user  # noqa: F401 - register User/Session tables on Base
+
+    url = os.getenv("APP_DATABASE_URL", "sqlite:///querypilot_app.db")
+    key = (url, "app")
+    if key not in _engines:
+        engine = create_engine(url)
+        # Idempotent: creates only missing tables (users, sessions).
+        # The Alembic migration 20241115_selfhosted_auth remains the
+        # production path; this makes fresh local/dev installs work.
+        Base.metadata.create_all(bind=engine)
+        _engines[key] = engine
+    return _engines[key]
+
+
 def dialect_name(engine) -> str:
     return {"postgresql": "postgres"}.get(engine.dialect.name, engine.dialect.name)
 

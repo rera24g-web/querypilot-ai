@@ -18,7 +18,6 @@ from app.models.user import User
 from app.services.session import SessionService
 from app.utils.security import hash_password, verify_password
 from app.dependencies.auth import get_db, get_current_user, get_optional_user
-from app.db import get_engine
 
 router = APIRouter(prefix="/auth", tags=["authentication"])
 

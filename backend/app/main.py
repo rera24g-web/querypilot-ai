@@ -13,8 +13,15 @@ from .middleware import CSRFMiddleware
 from .dependencies.auth import get_current_user_id
 
 app = FastAPI(title="QueryPilot AI")
-app.add_middleware(CORSMiddleware, allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
-                   allow_methods=["*"], allow_headers=["*"])
+# Cookie-based session auth requires explicit origins (browsers reject "*" with credentials)
+# and allow_credentials=True so session/csrf cookies flow on cross-origin requests.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(","),
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["Content-Type", "X-CSRF-Token", "X-XSRF-Token", "Authorization"],
+)
 # Add CSRF middleware
 app.add_middleware(CSRFMiddleware)
 
